@@ -74,16 +74,20 @@
         <h5 class="modal-title" id="modal-title"></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      {% if user.is_authenticated %}
+      {% if user.is_QT %}
       <div class="modal-body" id="modal-body">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button type="button" id="start-quiz" class="btn btn-primary">Start Quiz</button>
       </div>
-      {% else %}
+      {% elif user.is_QM %}
       <div class="modal-body">
-        <h3>Login first to start the quiz</h3>
+        <h3>QM cannot attempt the quiz</h3>
+      </div>
+      {% else %}
+      <div class ="modal-body">
+        <h3>You must be logged in to attempt the quiz</h3>
       </div>
       {% endif %}
     </div>
@@ -102,9 +106,9 @@
           <div class="card-body">
             <h5 class="card-title" style="text-align: center;">{{i.name}}</h5>
             <br>
-            <p class="card-text">{{i.desc}}</p>
+            <p class="card-text">{{i.description}}</p>
             <br>
-            <button 
+            <button data-bs-target="#exampleModal" data-bs-toggle="modal"
               data-questions="{{i.number_of_questions}}" data-name="{{i.name}}" data-id="{{i.id}}" id="btn"
               style="justify-content: center;" class="attempt btn mr-2 modal-button"><i class="fas fa-link"></i>Attempt
               Quiz</button>

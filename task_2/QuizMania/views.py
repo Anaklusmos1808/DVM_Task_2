@@ -18,7 +18,7 @@ def home(request):
 @QT_required
 def quiz(request, myid):
     quiz = Quiz.objects.get(id=myid)
-    return render(request, "quiz.html")
+    return render(request, "quiz.html", {'quiz': quiz})
 
 def quiz_data_view(request, myid):
     quiz = Quiz.objects.get(id=myid)
@@ -28,12 +28,17 @@ def quiz_data_view(request, myid):
         for a in q.get_answers():
             answers.append(a.content)
         questions.append({str(q): answers})
-        return JsonResponse({
-            'data' : questions,
-        })
+    return JsonResponse({
+        'data' : questions,
+    })
+
+
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
 
 def save_quiz_view(request, myid):
-    if request.is_ajax():
+    if is_ajax(request):
         questions = []
         data = request.POST
         data_ = dict(data.lists())
